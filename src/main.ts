@@ -8,6 +8,9 @@ import store from "./store";
 import ElementPlus from "element-plus";
 import registerGolbal from "@/global";
 /* UI */
+/* css */
+import "@/assets/css/index.css";
+/* css */
 createApp(App)
   .use(store)
   .use(router)
