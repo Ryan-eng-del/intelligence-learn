@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import LoginPages from "@/views/user/login";
+import LoginPages from "@/views/user/login/login";
 export default {
   components: {
     LoginPages
