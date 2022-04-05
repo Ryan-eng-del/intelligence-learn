@@ -4,14 +4,12 @@ export default new WBRequest({
   timeout: 1000,
   interceptors: {
     requestInterceptor(config) {
-      console.log("默认实例请求拦截器");
       return config;
     },
     requestInterceptorCatch(err) {
       return err;
     },
     responseInterceptor(res) {
-      console.log("默认实例响应拦截");
       return res;
     },
     responseInterceptorCatch(err) {

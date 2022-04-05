@@ -1,5 +1,7 @@
 @import "~normalize.css";
-
+/* ui库的全局样式覆盖 */
+@import "./override.css";
+/* ui库的全局样式覆盖 */
 /* 样式的重置 */
 html,
 body {

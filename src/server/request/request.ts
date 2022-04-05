@@ -30,7 +30,6 @@ export default class WBRequest {
     /*默认类拦截器*/
     this.instance.interceptors.request.use(
       (config) => {
-        console.log("默认请求拦截器");
         return config;
       },
       (err) => {
@@ -39,7 +38,6 @@ export default class WBRequest {
     );
     this.instance.interceptors.response.use(
       (res) => {
-        console.log("默认响应拦截器");
         return res;
       },
       (err) => {
@@ -65,5 +63,18 @@ export default class WBRequest {
         }
       );
     });
+  }
+  get<T = any>(config: WBRequestConfig): Promise<T> {
+    return this.request({ ...config, method: "GET" });
+  }
+  post<T = any>(config: WBRequestConfig): Promise<T> {
+    return this.request({ ...config, method: "POST" });
+  }
+  delete<T = any>(config: WBRequestConfig): Promise<T> {
+    return this.request({ ...config, method: "DELETE" });
+  }
+
+  patch<T = any>(config: WBRequestConfig): Promise<T> {
+    return this.request({ ...config, method: "PATCH" });
   }
 }

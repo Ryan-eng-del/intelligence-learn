@@ -1,14 +1,17 @@
 <template>
   <div class="app-wrapper">
-    <LoginPages> </LoginPages>
+    <n-loading-bar-provider>
+      <Context></Context>
+    </n-loading-bar-provider>
   </div>
 </template>
 
 <script>
-import LoginPages from "@/views/user/login/login";
+import Context from "./Context.vue";
 export default {
+  name: "App",
   components: {
-    LoginPages
+    Context
   }
 };
 </script>
