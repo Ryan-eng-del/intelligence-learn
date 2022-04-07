@@ -1,7 +1,10 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import LocalCache from "@/util/cache";
 const routes: Array<RouteRecordRaw> = [
-  { path: "/", redirect: "/main" },
+  {
+    path: "/",
+    redirect: "/main"
+  },
   {
     path: "/account",
     name: "account",
@@ -22,7 +25,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/main",
     name: "main",
-    component: () => import("@/views/main/main.vue")
+    component: () => import("@/views/main/ToolBox.vue")
   }
 ];
 
