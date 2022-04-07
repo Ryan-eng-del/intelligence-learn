@@ -1,61 +1,52 @@
 <template>
-  <n-loading-bar-provider>
-    <div class="login-container">
-      <section class="login-body">
-        <div class="login-header">登录</div>
-        <el-form
-          ref="ruleFromRef"
-          :rules="rules"
-          :model="accountData"
-          status-icon
-        >
-          <el-form-item prop="username">
-            <div class="login-id">
-              <div class="id-title">您的账户</div>
-              <el-input type="input" v-model="accountData.username"></el-input>
-            </div>
-          </el-form-item>
-          <el-form-item prop="password">
-            <div class="login-password">
-              <div class="password-tite">您的密码</div>
-              <el-input
-                type="password"
-                v-model="accountData.password"
-              ></el-input>
-            </div>
-          </el-form-item>
-          <el-form-item>
-            <div class="login-tips">
-              <el-checkbox
-                label="记住我"
-                v-model="isKeepPassword"
-              ></el-checkbox>
-            </div>
-          </el-form-item>
-          <el-form-item>
-            <n-space>
-              <div class="login-submit">
-                <el-button type="primary" @click="handleLogin(ruleFromRef)"
-                  >登录</el-button
-                >
-              </div>
-            </n-space>
-          </el-form-item>
-
-          <div class="login-footer">
-            您还没有账号？
-            <span @click="handleRegister">
-              马上注册
-              <el-icon
-                ><promotion
-                  style="width: 30px; height: 30px; margin-right: 6px"
-              /></el-icon>
-            </span>
+  <div class="login-container">
+    <section class="login-body">
+      <div class="login-header">登录</div>
+      <el-form
+        ref="ruleFromRef"
+        :rules="rules"
+        :model="accountData"
+        status-icon
+      >
+        <el-form-item prop="username">
+          <div class="login-id">
+            <div class="id-title">您的账户</div>
+            <el-input type="input" v-model="accountData.username"></el-input>
           </div>
-        </el-form>
-      </section>
-    </div>
-  </n-loading-bar-provider>
+        </el-form-item>
+        <el-form-item prop="password">
+          <div class="login-password">
+            <div class="password-tite">您的密码</div>
+            <el-input type="password" v-model="accountData.password"></el-input>
+          </div>
+        </el-form-item>
+        <el-form-item>
+          <div class="login-tips">
+            <el-checkbox label="记住我" v-model="isKeepPassword"></el-checkbox>
+          </div>
+        </el-form-item>
+        <el-form-item>
+          <n-space>
+            <div class="login-submit">
+              <el-button type="primary" @click="handleLogin(ruleFromRef)"
+                >登录</el-button
+              >
+            </div>
+          </n-space>
+        </el-form-item>
+
+        <div class="login-footer">
+          您还没有账号？
+          <span @click="handleRegister">
+            马上注册
+            <el-icon
+              ><promotion style="width: 30px; height: 30px; margin-right: 6px"
+            /></el-icon>
+          </span>
+        </div>
+      </el-form>
+    </section>
+  </div>
 </template>
 
 <script lang="ts">
@@ -71,12 +62,18 @@ export default defineComponent({
     Promotion
   },
   setup() {
+    console.log("om in");
     const ruleFromRef = ref<FormInstance>();
     const loadingBar = useLoadingBar();
     const disabledRef = ref(true);
     const accountData = reactive({
-      username: LocalCache.getCache("userInfo").username || "",
-      password: LocalCache.getCache("userInfo").password || ""
+      username:
+        (LocalCache.getCache("userInfo") &&
+          LocalCache.getCache("userInfo").username) ||
+        "",
+      password:
+        (LocalCache.getCache("userInfo") && LocalCache.getCache("userInfo")) ||
+        ""
     });
     const isKeepPassword = ref(false);
     const rules = reactive({
