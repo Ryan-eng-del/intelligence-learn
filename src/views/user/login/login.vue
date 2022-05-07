@@ -62,7 +62,6 @@ export default defineComponent({
     Promotion
   },
   setup() {
-    console.log("om in");
     const ruleFromRef = ref<FormInstance>();
     const loadingBar = useLoadingBar();
     const disabledRef = ref(true);
