@@ -6,6 +6,11 @@ const routes: Array<RouteRecordRaw> = [
     redirect: "/main"
   },
   {
+    path: "/404",
+    name: "PageNotFound",
+    component: () => import("@/views/main/NotFound.vue")
+  },
+  {
     path: "/account",
     name: "account",
     component: () => import("@/views/user/user.vue"),
@@ -25,7 +30,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/main",
     name: "main",
-    component: () => import("@/views/main/ToolBox.vue")
+    component: () => import("@/views/main/main.vue")
   }
 ];
 
@@ -34,10 +39,15 @@ const router = createRouter({
   routes
 });
 router.beforeEach((to) => {
+  if (to.matched.length == 0) {
+    // 页面不存在
+    return "/404";
+  }
   if (to.path !== "/account/login") {
+    // 未登录
     const token = LocalCache.getCache("token");
     if (!token) {
-      return "/account/login";
+      // return "/account/login";
     }
   }
 });
