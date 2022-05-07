@@ -1,7 +1,7 @@
 <template>
   <div class="app-wrapper">
     <n-loading-bar-provider>
-      <Context></Context>
+      <Context />
     </n-loading-bar-provider>
   </div>
 </template>
