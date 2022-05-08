@@ -39,9 +39,10 @@ export default defineComponent({
       require: true
     }
   },
-  setup(props, { attrs, emit, slots }) {
+  setup(props, { emit }) {
     function closeModalFn() {
       emit("update:show", false);
+      console.log(props);
     }
 
     return {
