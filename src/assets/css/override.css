@@ -4,3 +4,6 @@
 .n-loading-bar-container .n-loading-bar.n-loading-bar--finishing {
   background: #409eff;
 }
+aside.n-layout-sider.n-layout-sider--static-positioned.n-layout-sider--left-placement.n-layout-sider--show-content.left-sider {
+  height: 758px !important;
+}

@@ -15,4 +15,11 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped></style>
+<style lang="less">
+body {
+  background-color: rgb(245, 245, 245);
+}
+.app-wrapper {
+  margin-top: 40px;
+}
+</style>
