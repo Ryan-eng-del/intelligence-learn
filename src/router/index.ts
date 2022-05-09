@@ -63,7 +63,39 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/teachinfo",
     name: "teachinfo",
-    component: () => import("@/views/course/teachcourse/teachCourse.vue")
+    component: () => import("@/views/course/teachcourse/teachCourse.vue"),
+    children: [
+      {
+        path: "/teachinfo/chapter",
+        name: "chapter",
+        component: () =>
+          import("@/views/course/teachcourse/courseMenu/chapter.vue")
+      },
+      {
+        path: "/teachinfo/resource",
+        name: "resource",
+        component: () =>
+          import("@/views/course/teachcourse/courseMenu/resource.vue")
+      },
+      {
+        path: "/teachinfo/discuss",
+        name: "discuss",
+        component: () =>
+          import("@/views/course/teachcourse/courseMenu/discuss.vue")
+      },
+      {
+        path: "/teachinfo/courseExam",
+        name: "courseExam",
+        component: () =>
+          import("@/views/course/teachcourse/courseMenu/courseExam.vue")
+      },
+      {
+        path: "/teachinfo/knowledge",
+        name: "knowledge",
+        component: () =>
+          import("@/views/course/teachcourse/courseMenu/knowledge.vue")
+      }
+    ]
   },
   {
     path: "/learninfo",
