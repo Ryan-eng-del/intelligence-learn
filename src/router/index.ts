@@ -61,36 +61,36 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: "/teachinfo",
+    path: "/teachinfo/:courseId",
     name: "teachinfo",
     component: () => import("@/views/course/teachcourse/teachCourse.vue"),
     children: [
       {
-        path: "/teachinfo/chapter",
+        path: "/teachinfo/:courseId/chapter",
         name: "chapter",
         component: () =>
-          import("@/views/course/teachcourse/courseMenu/chapter.vue")
+          import("@/views/course/teachcourse/courseMenu/chapter.vue"),
       },
       {
-        path: "/teachinfo/resource",
+        path: "/teachinfo/:courseId/resource",
         name: "resource",
         component: () =>
           import("@/views/course/teachcourse/courseMenu/resource.vue")
       },
       {
-        path: "/teachinfo/discuss",
+        path: "/teachinfo/:courseId/discuss",
         name: "discuss",
         component: () =>
           import("@/views/course/teachcourse/courseMenu/discuss.vue")
       },
       {
-        path: "/teachinfo/courseExam",
+        path: "/teachinfo/:courseId/courseExam",
         name: "courseExam",
         component: () =>
           import("@/views/course/teachcourse/courseMenu/courseExam.vue")
       },
       {
-        path: "/teachinfo/knowledge",
+        path: "/teachinfo/:courseId/knowledge",
         name: "knowledge",
         component: () =>
           import("@/views/course/teachcourse/courseMenu/knowledge.vue")
@@ -101,6 +101,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/learninfo",
     name: "learninfo",
     component: () => import("@/views/course/learncourse/learnCourse.vue")
+  },
+  {
+    path: "/study/:courseId/:id",
+    name: "study",
+    component: () => import("@/views/course/teachcourse/detail.vue")
   }
 ];
 
@@ -109,10 +114,10 @@ const router = createRouter({
   routes
 });
 router.beforeEach((to) => {
-  if (to.matched.length == 0) {
-    // 页面不存在
-    return "/404";
-  }
+  // if (to.matched.length == 0) {
+  //   // 页面不存在
+  //   return "/404";
+  // }
   if (to.path !== "/account/login") {
     // 未登录
     const token = LocalCache.getCache("token");
