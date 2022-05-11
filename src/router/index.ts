@@ -105,7 +105,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/study/:courseId/:id",
     name: "study",
-    component: () => import("@/views/course/teachcourse/detail.vue")
+    component: () => import("@/pages/Course/TeachCourse/detail.vue")
   }
 ];
 

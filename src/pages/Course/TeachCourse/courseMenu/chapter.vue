@@ -59,7 +59,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, h } from "vue";
-import Add from "@/components/icon/Add.vue";
+import Add from "@/components/iconComponents/Add.vue";
 import { TreeOption, NIcon, DropdownOption } from "naive-ui";
 import { ChevronForward } from "@vicons/ionicons5";
 import { getRandomInt } from "element-plus/lib/utils";

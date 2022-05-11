@@ -93,7 +93,7 @@ export default defineComponent({
         onClick() {
           if (option.children == undefined) {
             router.push({
-              path: `/study/${option.key}`
+              path: `/study/courseid/${option.key}`
             });
           }
           console.log("点击了", option.children);
