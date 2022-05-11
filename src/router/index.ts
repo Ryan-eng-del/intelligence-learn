@@ -13,6 +13,7 @@ const routes: Array<RouteRecordRaw> = [
     path: "/account",
     name: "account",
     component: () => import("@/pages/User/UserPage.vue"),
+    redirect: "/account/login",
     children: [
       {
         path: "/account/login",
@@ -62,7 +63,39 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/teachinfo",
     name: "teachinfo",
-    component: () => import("@/pages/Course/TeachCourse/TeachCoursePage.vue")
+    component: () => import("@/pages/Course/TeachCourse/TeachCoursePage.vue"),
+    children: [
+      {
+        path: "/teachinfo/chapter",
+        name: "chapter",
+        component: () =>
+          import("@/pages/Course/TeachCourse/courseMenu/chapter.vue")
+      },
+      {
+        path: "/teachinfo/resource",
+        name: "resource",
+        component: () =>
+          import("@/pages/Course/TeachCourse/courseMenu/resource.vue")
+      },
+      {
+        path: "/teachinfo/discuss",
+        name: "discuss",
+        component: () =>
+          import("@/pages/Course/TeachCourse/courseMenu/discuss.vue")
+      },
+      {
+        path: "/teachinfo/courseExam",
+        name: "courseExam",
+        component: () =>
+          import("@/pages/Course/TeachCourse/courseMenu/courseExam.vue")
+      },
+      {
+        path: "/teachinfo/knowledge",
+        name: "knowledge",
+        component: () =>
+          import("@/pages/Course/TeachCourse/courseMenu/knowledge.vue")
+      }
+    ]
   },
   {
     path: "/learninfo",
