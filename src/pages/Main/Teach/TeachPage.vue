@@ -41,8 +41,8 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import CreateCourse from "@/components/CreateCourse.vue";
-import Add from "@/components/icon/Add.vue";
+import CreateCourse from "@/businessComponents/CreateCourseModal.vue";
+import Add from "@/components/iconComponents/Add.vue";
 import { useRouter } from "vue-router";
 export default defineComponent({
   name: "Teacher",

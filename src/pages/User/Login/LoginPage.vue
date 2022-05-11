@@ -2,12 +2,7 @@
   <div class="login-container">
     <section class="login-body">
       <div class="login-header">登录</div>
-      <el-form
-        ref="ruleFromRef"
-        :rules="rules"
-        :model="accountData"
-        status-icon
-      >
+      <el-form :model="accountData" status-icon>
         <el-form-item prop="username">
           <div class="login-id">
             <div class="id-title">您的账户</div>
@@ -22,15 +17,13 @@
         </el-form-item>
         <el-form-item>
           <div class="login-tips">
-            <el-checkbox label="记住我" v-model="isKeepPassword"></el-checkbox>
+            <el-checkbox label="记住我"></el-checkbox>
           </div>
         </el-form-item>
         <el-form-item>
           <n-space>
             <div class="login-submit">
-              <el-button type="primary" @click="handleLogin(ruleFromRef)"
-                >登录</el-button
-              >
+              <el-button type="primary" @click="handleLogin()">登录</el-button>
             </div>
           </n-space>
         </el-form-item>
@@ -50,21 +43,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from "vue";
+import { defineComponent, reactive } from "vue";
+import { useRouter } from "vue-router";
 import { Promotion } from "@element-plus/icons-vue";
-import type { FormInstance } from "element-plus";
-import { useLoadingBar } from "naive-ui";
+
 import LocalCache from "@/util/cache";
-import { validateUser, validatePassword } from "./config/rule";
-import Server from "@/server";
 export default defineComponent({
   components: {
     Promotion
   },
   setup() {
-    const ruleFromRef = ref<FormInstance>();
-    const loadingBar = useLoadingBar();
-    const disabledRef = ref(true);
+    const router = useRouter();
     const accountData = reactive({
       username:
         (LocalCache.getCache("userInfo") &&
@@ -74,51 +63,14 @@ export default defineComponent({
         (LocalCache.getCache("userInfo") && LocalCache.getCache("userInfo")) ||
         ""
     });
-    const isKeepPassword = ref(false);
-    const rules = reactive({
-      username: [{ validator: validateUser, trigger: "blur" }],
-      password: [{ validator: validatePassword, trigger: "blur" }]
-    });
-    const handleLogin = (formEl: FormInstance) => {
-      if (!formEl) return;
-      if (isKeepPassword.value) {
-        LocalCache.setCache("userInfo", accountData);
-      }
-      formEl.validate((valid) => {
-        if (valid) {
-          Server.get({
-            url: "/song/detail",
-            params: {
-              ids: 1
-            },
-            interceptors: {
-              requestInterceptor(config) {
-                loadingBar.start();
-                disabledRef.value = false;
-                return config;
-              },
-              responseInterceptor(res) {
-                setTimeout(() => {
-                  loadingBar.finish();
-                  disabledRef.value = true;
-                }, 1000);
-                return res;
-              }
-            }
-          }).then((res) => {
-            console.log(res);
-          });
-        } else {
-          console.log("error submie");
-          return false;
-        }
+
+    const handleLogin = () => {
+      router.push({
+        path: "/main"
       });
     };
     return {
       accountData,
-      isKeepPassword,
-      ruleFromRef,
-      rules,
       handleLogin
     };
   }
@@ -170,7 +122,7 @@ export default defineComponent({
     height: 40px;
   }
   .el-form-item__content div {
-    width: 100%;
+    width: 400px;
   }
   .login-submit {
     .el-button--primary {
