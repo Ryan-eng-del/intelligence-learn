@@ -61,36 +61,36 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: "/teachinfo",
+    path: "/teachinfo/:courseId",
     name: "teachinfo",
     component: () => import("@/pages/Course/TeachCourse/TeachCoursePage.vue"),
     children: [
       {
-        path: "/teachinfo/chapter",
+        path: "/teachinfo/:courseId/chapter",
         name: "chapter",
         component: () =>
           import("@/pages/Course/TeachCourse/courseMenu/chapter.vue")
       },
       {
-        path: "/teachinfo/resource",
+        path: "/teachinfo/:courseId/resource",
         name: "resource",
         component: () =>
           import("@/pages/Course/TeachCourse/courseMenu/resource.vue")
       },
       {
-        path: "/teachinfo/discuss",
+        path: "/teachinfo/:courseId/discuss",
         name: "discuss",
         component: () =>
           import("@/pages/Course/TeachCourse/courseMenu/discuss.vue")
       },
       {
-        path: "/teachinfo/courseExam",
+        path: "/teachinfo/:courseId/courseExam",
         name: "courseExam",
         component: () =>
           import("@/pages/Course/TeachCourse/courseMenu/courseExam.vue")
       },
       {
-        path: "/teachinfo/knowledge",
+        path: "/teachinfo/:courseId/knowledge",
         name: "knowledge",
         component: () =>
           import("@/pages/Course/TeachCourse/courseMenu/knowledge.vue")
@@ -101,6 +101,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/learninfo",
     name: "learninfo",
     component: () => import("@/pages/Course/LearnCourse/LearnCoursePage.vue")
+  },
+  {
+    path: "/study/:courseId/:id",
+    name: "study",
+    component: () => import("@/views/course/teachcourse/detail.vue")
   }
 ];
 

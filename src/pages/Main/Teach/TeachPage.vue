@@ -60,7 +60,7 @@ export default defineComponent({
     }
     function handleClickCourseInfo() {
       router.push({
-        path: "/teachinfo"
+        path: "/teachinfo/1"
       });
     }
     return {
