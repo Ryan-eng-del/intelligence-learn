@@ -19,9 +19,16 @@
             "
             @error="Course.cover = ''"
           />
-          <div class="name" :style="menuStyle.name">
-            {{ Course.name }}
-          </div>
+          <n-button
+            text
+            :style="menuStyle.name"
+            class="name"
+            @click="leave.leave"
+            @mousemove="leave.showleave"
+            @mouseleave="leave.showName"
+          >
+            {{ showText }}
+          </n-button>
         </div>
         <!--分割线-->
         <div class="divider" />
@@ -53,6 +60,7 @@ export default defineComponent({
     const menuCurrent = ref("chapter");
     const Course = {};
     Course.name = "离散数学";
+    const showText = ref(Course.name + "[章节]");
     Course.cover = require("@/assets/img/newCourse.jpg");
     const data = [
       {
@@ -80,6 +88,7 @@ export default defineComponent({
       name: {
         maxWidth: "160px",
         height: "32px",
+        width: "320px",
         margin: "6px 0 10px 0",
         opacity: 1
       }
@@ -93,22 +102,41 @@ export default defineComponent({
         onClick() {
           if (option.children == undefined) {
             router.push({
-              path: `/study/courseid/${option.key}`
+              path: `/chapter/${router.currentRoute.value.params.courseId}/teach/${option.key}`
             });
           }
           console.log("点击了", option.children);
         }
       };
     };
+    //返回按钮
+    const leave = {
+      leave() {
+        router.push({
+          path: "/teachinfo/courseid/chapter"
+        });
+      },
+      showleave() {
+        menuStyle.name.color = "#17d16b";
+        showText.value = "返回课程";
+      },
+      showName() {
+        menuStyle.name.color = "#333639";
+        showText.value = Course.name + "[章节]";
+      }
+    };
+
     const renderSwitcherIcon = () =>
       h(NIcon, null, { default: () => h(ChevronForward) });
     return {
       data,
       Course,
+      showText,
       menuStyle,
       menuCurrent,
       nodeProps,
-      renderSwitcherIcon
+      renderSwitcherIcon,
+      leave
     };
   }
 });

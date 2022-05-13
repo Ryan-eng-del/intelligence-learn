@@ -44,6 +44,7 @@ import { defineComponent, ref } from "vue";
 import CreateCourse from "@/businessComponents/CreateCourseModal.vue";
 import Add from "@/components/iconComponents/Add.vue";
 import { useRouter } from "vue-router";
+import { getRandomInt } from "element-plus/lib/utils";
 export default defineComponent({
   name: "Teacher",
   components: {
@@ -60,7 +61,7 @@ export default defineComponent({
     }
     function handleClickCourseInfo() {
       router.push({
-        path: "/teachinfo/1"
+        path: `/teachinfo/${getRandomInt(999)}/chapter`
       });
     }
     return {

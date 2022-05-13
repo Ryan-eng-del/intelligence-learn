@@ -19,7 +19,14 @@
             "
             @error="Course.cover = ''"
           />
-          <n-button text class="name" :style="menuStyle.name" @click="leave">
+          <n-button
+            text
+            class="name"
+            :style="menuStyle.name"
+            @click="leave.leave"
+            @mousemove="leave.showleave"
+            @mouseleave="leave.showName"
+          >
             {{ showText }}
           </n-button>
         </div>
@@ -52,12 +59,23 @@ export default defineComponent({
     const Course = {};
     Course.name = "离散数学";
     Course.cover = require("@/assets/img/newCourse.jpg");
-    var showText = Course.name;
-    function leave() {
-      router.push({
-        path: "/main"
-      });
-    }
+    const showText = ref(Course.name);
+    //返回按钮
+    const leave = {
+      leave() {
+        router.push({
+          path: "/main/teach"
+        });
+      },
+      showleave() {
+        menuStyle.name.color = "#17d16b";
+        showText.value = "回到首页";
+      },
+      showName() {
+        menuStyle.name.color = "#333639";
+        showText.value = Course.name;
+      }
+    };
     const menuStyle = {
       sider: {
         height: "100vh"
@@ -86,14 +104,14 @@ export default defineComponent({
     ];
     function handleMenuUpdateFn(key) {
       router.push({
-        path: `/teachinfo/1/${key}`
+        path: `/teachinfo/${router.currentRoute.value.params.courseId}/${key}`
       });
     }
 
     watch(
       () => route.path,
       (value) => {
-        if (value.indexOf("/teachinfo/1/chapter") !== -1)
+        if (value.indexOf(`/teachinfo/1/chapter`) !== -1)
           menuCurrent.value = "chapter";
         else if (value.indexOf("/teachinfo/1/resource") !== -1)
           menuCurrent.value = "resource";
@@ -113,7 +131,6 @@ export default defineComponent({
       menuCurrent,
       menuOptions,
       handleMenuUpdateFn,
-
       leave
     };
   }

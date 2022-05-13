@@ -69,7 +69,7 @@ const routes: Array<RouteRecordRaw> = [
         path: "/teachinfo/:courseId/chapter",
         name: "chapter",
         component: () =>
-          import("@/pages/Course/TeachCourse/courseMenu/chapter.vue")
+          import("@/pages/Course/TeachCourse/courseMenu/Chapter/chapter.vue")
       },
       {
         path: "/teachinfo/:courseId/resource",
@@ -103,9 +103,24 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/pages/Course/LearnCourse/LearnCoursePage.vue")
   },
   {
-    path: "/study/:courseId/:id",
-    name: "study",
-    component: () => import("@/pages/Course/TeachCourse/detail.vue")
+    path: "/chapter/:courseId",
+    name: "chapterDetail",
+    component: () =>
+      import("@/pages/Course/TeachCourse/courseMenu/Chapter/detail.vue"),
+    children: [
+      {
+        path: "/chapter/:courseId/teach/:id",
+        name: "courseTimeEditor",
+        component: () =>
+          import("@/pages/Course/TeachCourse/courseMenu/Chapter/editor.vue")
+      },
+      {
+        path: "/chapter/:courseId/study/:id",
+        name: "courseTimeStudy",
+        component: () =>
+          import("@/pages/Course/TeachCourse/courseMenu/Chapter/editor.vue")
+      }
+    ]
   }
 ];
 
@@ -114,10 +129,10 @@ const router = createRouter({
   routes
 });
 router.beforeEach((to) => {
-  if (to.matched.length == 0) {
-    // 页面不存在
-    return "/404";
-  }
+  // if (to.matched.length == 0) {
+  //   // 页面不存在
+  //   return "/404";
+  // }
   // if (to.path !== "/account/login") {
   //   // 未登录
   //   const token = LocalCache.getCache("token");
