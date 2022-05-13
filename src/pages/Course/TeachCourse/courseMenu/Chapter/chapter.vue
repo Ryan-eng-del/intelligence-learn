@@ -71,39 +71,66 @@ export default defineComponent({
     Add
   },
   setup() {
-    const data: TreeOption[] = [
+    const dataRef = ref([
       {
         label: "Chapter I",
         key: 1,
-        isLeaf: false,
         children: [
-          { label: "Chapter I-I", key: 11, isLeaf: false, children: [] },
+          { label: "Chapter I-I", key: 11, children: [] },
           { label: "Node I-II", key: 12, isLeaf: true }
         ]
       },
       { label: "Node II", key: 2, isLeaf: true }
-    ];
+    ]);
+
     function showCreateNodeFn() {
-      data.push({
+      dataRef.value.push({
         label: "Node New",
         key: getRandomInt(999),
-        isLeaf: false,
         children: []
       });
     }
+
     const showDropdownRef = ref(false);
+    const DropdownOption = ref(); //下拉菜单的选项
     const optionsRef = ref<DropdownOption[]>([]);
     const router = useRouter();
     const xRef = ref(0);
     const yRef = ref(0);
+
     // 点击了选项
-    const handleSelect = () => {
+    const handleSelect = (key: string | number) => {
+      switch (key) {
+        case "new":
+          DropdownOption.value.children.push({
+            label: "可学习内容",
+            key: getRandomInt(999)
+          });
+          break;
+        case "delete":
+          // TODO:
+          console.log("delete");
+          break;
+        case "newNode":
+          DropdownOption.value.children.push({
+            label: "新文件夹",
+            key: getRandomInt(999),
+            children: []
+          });
+          break;
+        case "rename":
+          // TODO:
+          console.log("rename");
+          break;
+      }
       showDropdownRef.value = false;
     };
+
     // 仅关闭菜单
     const handleClickoutside = () => {
       showDropdownRef.value = false;
     };
+
     // 节点功能设置
     const nodeProps = ({ option }: { option: TreeOption }) => {
       return {
@@ -113,30 +140,37 @@ export default defineComponent({
         onClick() {
           if (option.children == undefined) {
             router.push({
-              path: `/study/courseId/${option.key}`
+              path: `/chapter/${router.currentRoute.value.params.courseId}/teach/${option.key}`
             });
           }
-          console.log("点击了", option.children);
         },
         onContextmenu(e: MouseEvent): void {
+          DropdownOption.value = option;
           optionsRef.value = [
-            { label: "添加内容", key: "new" }, // TODO: 右键叶节点不应该存在此项
-            { label: "新建子节点", key: "newNode" },
             { label: "重命名", key: "rename" },
             { label: "删除", key: "delete" }
           ];
+          // 是文件夹才有
+          if (option.children !== undefined) {
+            optionsRef.value.push(
+              { label: "添加内容", key: "new" },
+              { label: "新建子节点", key: "newNode" }
+            );
+          }
           showDropdownRef.value = true;
           xRef.value = e.clientX;
           yRef.value = e.clientY;
-          console.log("右键菜单 ", e.clientX, e.clientY);
           e.preventDefault();
         }
       };
     };
+
+    //树的左侧图标
     const renderSwitcherIcon = () =>
       h(NIcon, null, { default: () => h(ChevronForward) });
+
     return {
-      data,
+      data: dataRef,
       showCreateNodeFn,
       showDropdown: showDropdownRef,
       x: xRef,
