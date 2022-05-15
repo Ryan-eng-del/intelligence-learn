@@ -8,35 +8,50 @@
     @update:show="closeModalFn"
   >
     <!--课程数据录入表单-->
-    <n-form :model="courseData" label-width="400" size="medium">
+    <!-- 有报错但不用管能跑 -->
+    <n-form label-width="400" size="medium">
       <!--课程名称-->
       <n-form-item label="课程名称">
-        <n-input clearable placeholder="输入课程名称" />
+        <n-input
+          clearable
+          placeholder="输入课程名称"
+          type="text"
+          v-model:value="courseData.name"
+        />
       </n-form-item>
       <!--课程类型-->
       <n-form-item label="课程类型">
-        <n-auto-complete clearable placeholder="请输入课程类型" />
+        <n-auto-complete
+          clearable
+          placeholder="请输入课程类型"
+          type="text"
+          v-model:value="courseData.type"
+        />
       </n-form-item>
       <n-form-item label="课程封面">
         <img src="../assets/img/newCourse.jpg" alt="" />
       </n-form-item>
       <!--创建课程按钮-->
       <div class="create-button">
-        <n-button block type="primary">创建课程</n-button>
+        <n-button block type="primary" @click="deliver()">创建课程</n-button>
       </div>
     </n-form>
   </n-modal>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-
+import { defineComponent, ref } from "vue";
+import { courseType } from "@/Type/courseType"; //课程类型的接口
 export default defineComponent({
   name: "CreateCourse",
   props: {
     show: {
       type: Boolean,
       require: true
+    },
+    addCourse: {
+      type: Function,
+      required: true
     }
   },
   setup(props, { emit }) {
@@ -44,9 +59,19 @@ export default defineComponent({
       emit("update:show", false);
       console.log(props);
     }
-
+    const courseData = ref<courseType>({
+      id: 0,
+      name: " ",
+      type: " "
+    });
+    const deliver = () => {
+      props.addCourse(courseData.value);
+      closeModalFn();
+    };
     return {
-      closeModalFn
+      closeModalFn,
+      courseData,
+      deliver
     };
   }
 });
