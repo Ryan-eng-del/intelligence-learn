@@ -1,7 +1,7 @@
 <template>
-  <tr style="border: 1px solid; flex-direction: row">
+  <td style="display: grid; grid-template-columns: 275px 275px 275px 275px">
     <item v-for="course in courses" :key="course.id" :course="course" />
-  </tr>
+  </td>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";

@@ -1,11 +1,13 @@
 <template>
-  <n-card>
-    <template #cover>
-      <img src="@/assets/img/newCourse.jpg" />
-    </template>
-    <h1>{{ course?.name }}</h1>
-    <h2>{{ course?.type }}</h2>
-  </n-card>
+  <div style="margin: 10px">
+    <n-card>
+      <template #cover>
+        <img src="@/assets/img/newCourse.jpg" />
+      </template>
+      <h1>{{ course?.name }}</h1>
+      <h2>{{ course?.type }}</h2>
+    </n-card>
+  </div>
 </template>
 
 <style>

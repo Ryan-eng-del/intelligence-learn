@@ -35,8 +35,7 @@
     </div>
     <n-button type="primary" @click="handleClickCourseInfo"
       >所教课程详情测试链接</n-button
-    ><n-button type="primary" @click="addCourse">jiadongxi</n-button>
-
+    >
     <list :courses="courses" />
   </n-layout>
 </template>

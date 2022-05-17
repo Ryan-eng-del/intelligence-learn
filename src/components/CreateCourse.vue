@@ -64,9 +64,20 @@ export default defineComponent({
       name: " ",
       type: " "
     });
+    const newcourse = {
+      id: 0,
+      name: " ",
+      type: " "
+    };
     const deliver = () => {
-      props.addCourse(courseData.value);
+      newcourse.id = courseData.value.id;
+      newcourse.name = courseData.value.name;
+      newcourse.type = courseData.value.type;
+
+      props.addCourse(newcourse);
       closeModalFn();
+      courseData.value.name = " ";
+      courseData.value.type = " ";
     };
     return {
       closeModalFn,
