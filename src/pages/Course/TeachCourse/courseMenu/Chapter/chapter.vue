@@ -98,7 +98,7 @@ export default defineComponent({
     const xRef = ref(0);
     const yRef = ref(0);
 
-    // 点击了选项
+    // 点击了右键菜单选项
     const handleSelect = (key: string | number) => {
       switch (key) {
         case "new":
@@ -139,9 +139,18 @@ export default defineComponent({
         },
         onClick() {
           if (option.children == undefined) {
-            router.push({
-              path: `/chapter/${router.currentRoute.value.params.courseId}/teach/${option.key}`
-            });
+            const condition = true;
+            if (condition) {
+              //如果资源存在
+              router.push({
+                path: `/chapter/${router.currentRoute.value.params.courseId}/preview/${option.key}`
+              });
+            } else {
+              //如果资源不存在
+              router.push({
+                path: `/chapter/${router.currentRoute.value.params.courseId}/editor/${option.key}`
+              });
+            }
           }
         },
         onContextmenu(e: MouseEvent): void {

@@ -109,16 +109,16 @@ const routes: Array<RouteRecordRaw> = [
       import("@/pages/Course/TeachCourse/courseMenu/Chapter/detail.vue"),
     children: [
       {
-        path: "/chapter/:courseId/teach/:id",
+        path: "/chapter/:courseId/editor/:id",
         name: "courseTimeEditor",
         component: () =>
           import("@/pages/Course/TeachCourse/courseMenu/Chapter/editor.vue")
       },
       {
-        path: "/chapter/:courseId/study/:id",
+        path: "/chapter/:courseId/preview/:id",
         name: "courseTimeStudy",
         component: () =>
-          import("@/pages/Course/TeachCourse/courseMenu/Chapter/editor.vue")
+          import("@/pages/Course/TeachCourse/courseMenu/Chapter/preview.vue")
       }
     ]
   }
@@ -129,10 +129,10 @@ const router = createRouter({
   routes
 });
 router.beforeEach((to) => {
-  // if (to.matched.length == 0) {
-  //   // 页面不存在
-  //   return "/404";
-  // }
+  if (to.matched.length == 0) {
+    // 页面不存在
+    // return "/404";
+  }
   // if (to.path !== "/account/login") {
   //   // 未登录
   //   const token = LocalCache.getCache("token");

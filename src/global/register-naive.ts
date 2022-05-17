@@ -32,7 +32,9 @@ import {
   NRadio,
   NH3,
   NUpload,
-  NDropdown
+  NDropdown,
+  NUploadDragger,
+  NP
 } from "naive-ui";
 
 const naive = create({
@@ -62,6 +64,7 @@ const naive = create({
     NMessageProvider,
     NModal,
     NNotificationProvider,
+    NP,
     NResult,
     NSelect,
     NText,
@@ -69,7 +72,8 @@ const naive = create({
     NTree,
     NRadio,
     NH3,
-    NUpload
+    NUpload,
+    NUploadDragger
   ]
 });
 
