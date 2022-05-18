@@ -44,7 +44,7 @@
 import { getRandomInt } from "element-plus/lib/utils";
 import { defineComponent, reactive, ref, toRefs } from "vue";
 import CreateCourse from "@/components/CreateCourse.vue";
-import Add from "@/components/icon/Add.vue";
+import Add from "@/components/iconComponents/Add.vue";
 import { useRouter } from "vue-router";
 import list from "./list.vue";
 import { courseType } from "@/Type/courseType"; //课程类型的接口
