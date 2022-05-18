@@ -11,25 +11,25 @@
     <n-form :model="courseData" label-width="400" size="medium">
       <!--课程名称-->
       <n-form-item label="课程名称">
-        <n-input clearable placeholder="输入课程名称" />
+        <n-input clearable placeholder="输入课程名称" v-model:value="courseName" />
       </n-form-item>
       <!--课程类型-->
       <n-form-item label="课程类型">
-        <n-auto-complete clearable placeholder="请输入课程类型" />
+        <n-auto-complete clearable placeholder="请输入课程类型" v-model:value="courseType"/>
       </n-form-item>
       <n-form-item label="课程封面">
         <img src="../assets/img/newCourse.jpg" alt="" />
       </n-form-item>
       <!--创建课程按钮-->
       <div class="create-button">
-        <n-button block type="primary">创建课程</n-button>
+        <n-button block type="primary" @click="createCourse">创建课程</n-button>
       </div>
     </n-form>
   </n-modal>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent,ref } from "vue";
 
 export default defineComponent({
   name: "CreateCourse",
@@ -37,6 +37,10 @@ export default defineComponent({
     show: {
       type: Boolean,
       require: true
+    },
+    addCourse: {
+      type: Function,
+      required: true
     }
   },
   setup(props, { emit }) {
@@ -45,8 +49,37 @@ export default defineComponent({
       console.log(props);
     }
 
+    const courseName = ref("");
+    const courseType = ref("");
+
+    //获取用户输入的课程信息
+    function createCourse() {
+      const cName = courseName.value;
+      const cType = courseType.value;
+      // const cCover     封面
+      if (!cName.trim() && !cType.trim()) return;
+      //有数据
+      const courseItem = {
+        id: 222,
+        teacherName: "彭于晏", //获取当前用户的姓名
+        courseName: cName,
+        courseType: cType,
+        courseCover: "我是图片"
+      };
+      //调用addCourse
+      props.addCourse(courseItem);
+      courseName.value = "";
+      courseType.value = "";
+      // courseCover
+      //关闭模态窗
+      emit("update:show", false);
+    }
+
     return {
-      closeModalFn
+      closeModalFn,
+      createCourse,
+      courseName,
+      courseType
     };
   }
 });
