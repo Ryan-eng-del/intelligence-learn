@@ -1,5 +1,5 @@
 <template>
-  <h1>考试+作业</h1>
+  <h1>资源列表</h1>
 </template>
 
 <script>

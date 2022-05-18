@@ -31,40 +31,27 @@
         新建课程
       </n-button>
       <!--新建课程模态框-->
-      <create-course v-model:show="showCreateCourse" :addCourse="addCourse" />
+      <create-course v-model:show="showCreateCourse" />
     </div>
     <n-button type="primary" @click="handleClickCourseInfo"
       >所教课程详情测试链接</n-button
     >
-    <list :courses="courses" />
   </n-layout>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, toRefs } from "vue";
-import CreateCourse from "@/components/CreateCourse.vue";
-import Add from "@/components/icon/Add.vue";
+import { defineComponent, ref } from "vue";
+import CreateCourse from "@/businessComponents/CreateCourseModal.vue";
+import Add from "@/components/iconComponents/Add.vue";
 import { useRouter } from "vue-router";
-import list from "./list.vue";
-import { courseType } from "@/Type/courseType"; //课程类型的接口
-
+import { getRandomInt } from "element-plus/lib/utils";
 export default defineComponent({
   name: "Teacher",
   components: {
     Add,
-    CreateCourse,
-    list
+    CreateCourse
   },
   setup() {
-    //
-    const state = reactive<{ courses: courseType[] }>({
-      courses: [
-        { id: 1, name: "离散数学", type: "专业必修" },
-        { id: 2, name: "java", type: "专业必修" },
-        { id: 3, name: "马原", type: "专业选修" }
-      ]
-    });
-    //
     const showCreateCourse = ref(false);
     const router = useRouter();
     // 展示创建课程模态框
@@ -74,19 +61,10 @@ export default defineComponent({
     }
     function handleClickCourseInfo() {
       router.push({
-        path: "/teachinfo"
+        path: `/teachinfo/${getRandomInt(999)}/chapter`
       });
-    }
-    function addCourse(c: courseType) {
-      console.log(state.courses);
-      state.courses.forEach((c) => {
-        c.id += 1;
-      });
-      state.courses.unshift(c);
     }
     return {
-      addCourse,
-      ...toRefs(state),
       showCreateCourse,
       showCreateCourseFn,
       handleClickCourseInfo

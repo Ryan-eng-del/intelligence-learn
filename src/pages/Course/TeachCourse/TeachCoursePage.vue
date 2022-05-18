@@ -1,6 +1,6 @@
 <template>
   <n-layout>
-    <n-layout has-sider embedded class="home-container">
+    <n-layout has-sider embedded class="course-container">
       <!--左侧菜单栏-->
       <n-layout-sider
         class="left-sider"
@@ -19,9 +19,16 @@
             "
             @error="Course.cover = ''"
           />
-          <div class="name" :style="menuStyle.name">
-            {{ Course.name }}
-          </div>
+          <n-button
+            text
+            class="name"
+            :style="menuStyle.name"
+            @click="leave.leave"
+            @mousemove="leave.showleave"
+            @mouseleave="leave.showName"
+          >
+            {{ showText }}
+          </n-button>
         </div>
         <!--分割线-->
         <div class="divider" />
@@ -48,10 +55,27 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const route = useRoute();
-    const menuCurrent = ref("teach");
+    const menuCurrent = ref("chapter");
     const Course = {};
     Course.name = "离散数学";
     Course.cover = require("@/assets/img/newCourse.jpg");
+    const showText = ref(Course.name);
+    //返回按钮
+    const leave = {
+      leave() {
+        router.push({
+          path: "/main/teach"
+        });
+      },
+      showleave() {
+        menuStyle.name.color = "#17d16b";
+        showText.value = "回到首页";
+      },
+      showName() {
+        menuStyle.name.color = "#333639";
+        showText.value = Course.name;
+      }
+    };
     const menuStyle = {
       sider: {
         height: "100vh"
@@ -80,39 +104,41 @@ export default defineComponent({
     ];
     function handleMenuUpdateFn(key) {
       router.push({
-        path: `/teachinfo/${key}`
+        path: `/teachinfo/${router.currentRoute.value.params.courseId}/${key}`
       });
     }
 
     watch(
       () => route.path,
       (value) => {
-        if (value.indexOf("/teachinfo/chapter") !== -1)
+        if (value.indexOf(`/teachinfo/1/chapter`) !== -1)
           menuCurrent.value = "chapter";
-        else if (value.indexOf("/teachinfo/resource") !== -1)
+        else if (value.indexOf("/teachinfo/1/resource") !== -1)
           menuCurrent.value = "resource";
-        else if (value.indexOf("/teachinfo/discuss") !== -1)
+        else if (value.indexOf("/teachinfo/1/discuss") !== -1)
           menuCurrent.value = "discuss";
-        else if (value.indexOf("/teachinfo/courseExam") !== -1)
+        else if (value.indexOf("/teachinfo/1/courseExam") !== -1)
           menuCurrent.value = "courseExam";
-        else if (value.indexOf("/teachinfo/knowledge") !== -1)
+        else if (value.indexOf("/teachinfo/1/knowledge") !== -1)
           menuCurrent.value = "knowledge";
       },
       { immediate: true }
     );
     return {
       Course,
+      showText,
       menuStyle,
       menuCurrent,
       menuOptions,
-      handleMenuUpdateFn
+      handleMenuUpdateFn,
+      leave
     };
   }
 });
 </script>
 
 <style lang="less" scoped>
-.home-container {
+.course-container {
   background-color: rgb(245, 245, 245);
   min-width: 992px;
   margin: 0 auto 0 auto;
@@ -121,6 +147,7 @@ export default defineComponent({
     margin: 22px 22px 20px 30px;
     border-radius: 10px;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    max-height: 90vh;
     .courseDetail {
       display: flex;
       flex-direction: column;

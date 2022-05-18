@@ -52,20 +52,14 @@ export default defineComponent({
     Profile.nickname = "彭于晏";
     Profile.avatar = require("@/assets/img/avatar/pyyPro.jpg");
     const menuStyle = {
-      header: {
-        height: "60px",
-        width: "100vw"
-      },
       sider: {
-        height: "480px",
-        transition: "all .3s cubic-bezier(0.4, 0, 0.2, 1)"
+        height: "480px"
       },
       avatar: {
         height: "80px",
         margin: "20px 0 0 0",
         border: "1px solid #ececec",
-        backgroundColor: "#fefefe",
-        transition: "all .3s cubic-bezier(0.4, 0, 0.2, 1)"
+        backgroundColor: "#fefefe"
       },
       nickName: {
         maxWidth: "160px",
@@ -125,12 +119,12 @@ export default defineComponent({
   background-color: rgb(245, 245, 245);
   min-width: 992px;
   margin: 0 auto 0 auto;
-  height: 800px;
+  height: 100vh;
   .left-sider {
     margin: 22px 22px 20px 30px;
     border-radius: 10px;
-    height: 800px;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    max-height: 90vh;
     .profile {
       display: flex;
       flex-direction: column;

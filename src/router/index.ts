@@ -1,106 +1,126 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
-import LocalCache from "@/util/cache";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    redirect: "/main"
+    redirect: "/account"
   },
   {
     path: "/404",
     name: "PageNotFound",
-    component: () => import("@/views/main/NotFound.vue")
+    component: () => import("@/pages/Main/NotFound/NotFoundPage.vue")
   },
   {
     path: "/account",
     name: "account",
-    component: () => import("@/views/user/user.vue"),
+    component: () => import("@/pages/User/UserPage.vue"),
+    redirect: "/account/login",
     children: [
       {
         path: "/account/login",
         name: "login",
-        component: () => import("@/views/user/login/login.vue")
+        component: () => import("@/pages/User/Login/LoginPage.vue")
       },
       {
         path: "/account/register",
         name: "register",
-        component: () => import("@/views/user/register/register.vue")
+        component: () => import("@/pages/User/Register/RegisterPage.vue")
       }
     ]
   },
   {
     path: "/main",
     name: "main",
-    component: () => import("@/views/main/main.vue"),
+    component: () => import("@/pages/Main/MainPage.vue"),
     redirect: "/main/teach",
     children: [
       {
         path: "/main/message",
         name: "message",
-        component: () => import("@/views/main/message/message.vue")
+        component: () => import("@/pages/Main/Message/MessagePage.vue")
       },
       {
         path: "/main/learn",
         name: "learn",
-        component: () => import("@/views/main/learn/learn.vue")
+        component: () => import("@/pages/Main/Learn/LearnPage.vue")
       },
       {
         path: "/main/teach",
         name: "teach",
-        component: () => import("@/views/main/teach/teach.vue")
+        component: () => import("@/pages/Main/Teach/TeachPage.vue")
       },
       {
         path: "/main/userinfo",
         name: "userinfo",
-        component: () => import("@/views/main/userInfo/userInfo.vue")
+        component: () => import("@/pages/Main/UserInfo/UserInfoPage.vue")
       },
       {
         path: "/main/exam",
         name: "exam",
-        component: () => import("@/views/main/exam/exam.vue")
+        component: () => import("@/pages/Main/Exam/ExamPage.vue")
       }
     ]
   },
   {
-    path: "/teachinfo",
+    path: "/teachinfo/:courseId",
     name: "teachinfo",
-    component: () => import("@/views/course/teachcourse/teachCourse.vue"),
+    component: () => import("@/pages/Course/TeachCourse/TeachCoursePage.vue"),
     children: [
       {
-        path: "/teachinfo/chapter",
+        path: "/teachinfo/:courseId/chapter",
         name: "chapter",
         component: () =>
-          import("@/views/course/teachcourse/courseMenu/chapter.vue")
+          import("@/pages/Course/TeachCourse/courseMenu/Chapter/chapter.vue")
       },
       {
-        path: "/teachinfo/resource",
+        path: "/teachinfo/:courseId/resource",
         name: "resource",
         component: () =>
-          import("@/views/course/teachcourse/courseMenu/resource.vue")
+          import("@/pages/Course/TeachCourse/courseMenu/resource.vue")
       },
       {
-        path: "/teachinfo/discuss",
+        path: "/teachinfo/:courseId/discuss",
         name: "discuss",
         component: () =>
-          import("@/views/course/teachcourse/courseMenu/discuss.vue")
+          import("@/pages/Course/TeachCourse/courseMenu/discuss.vue")
       },
       {
-        path: "/teachinfo/courseExam",
+        path: "/teachinfo/:courseId/courseExam",
         name: "courseExam",
         component: () =>
-          import("@/views/course/teachcourse/courseMenu/courseExam.vue")
+          import("@/pages/Course/TeachCourse/courseMenu/courseExam.vue")
       },
       {
-        path: "/teachinfo/knowledge",
+        path: "/teachinfo/:courseId/knowledge",
         name: "knowledge",
         component: () =>
-          import("@/views/course/teachcourse/courseMenu/knowledge.vue")
+          import("@/pages/Course/TeachCourse/courseMenu/knowledge.vue")
       }
     ]
   },
   {
     path: "/learninfo",
     name: "learninfo",
-    component: () => import("@/views/course/learncourse/learnCourse.vue")
+    component: () => import("@/pages/Course/LearnCourse/LearnCoursePage.vue")
+  },
+  {
+    path: "/chapter/:courseId",
+    name: "chapterDetail",
+    component: () =>
+      import("@/pages/Course/TeachCourse/courseMenu/Chapter/detail.vue"),
+    children: [
+      {
+        path: "/chapter/:courseId/editor/:id",
+        name: "courseTimeEditor",
+        component: () =>
+          import("@/pages/Course/TeachCourse/courseMenu/Chapter/editor.vue")
+      },
+      {
+        path: "/chapter/:courseId/preview/:id",
+        name: "courseTimeStudy",
+        component: () =>
+          import("@/pages/Course/TeachCourse/courseMenu/Chapter/preview.vue")
+      }
+    ]
   }
 ];
 
@@ -111,14 +131,14 @@ const router = createRouter({
 router.beforeEach((to) => {
   if (to.matched.length == 0) {
     // 页面不存在
-    return "/404";
+    // return "/404";
   }
-  if (to.path !== "/account/login") {
-    // 未登录
-    const token = LocalCache.getCache("token");
-    if (!token) {
-      // return "/account/login";
-    }
-  }
+  // if (to.path !== "/account/login") {
+  //   // 未登录
+  //   const token = LocalCache.getCache("token");
+  //   if (!token) {
+  //     return "/account/login";
+  //   }
+  // }
 });
 export default router;

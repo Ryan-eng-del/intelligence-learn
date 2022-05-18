@@ -19,7 +19,4 @@ export default {
 body {
   background-color: rgb(245, 245, 245);
 }
-.app-wrapper {
-  margin-top: 40px;
-}
 </style>

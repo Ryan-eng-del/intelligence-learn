@@ -27,10 +27,14 @@ import {
   NResult,
   NSelect,
   NText,
+  NTree,
   NThemeEditor,
   NRadio,
   NH3,
-  NUpload
+  NUpload,
+  NDropdown,
+  NUploadDragger,
+  NP
 } from "naive-ui";
 
 const naive = create({
@@ -43,6 +47,7 @@ const naive = create({
     NConfigProvider,
     NDialogProvider,
     NDivider,
+    NDropdown,
     NElement,
     NEllipsis,
     NForm,
@@ -59,13 +64,16 @@ const naive = create({
     NMessageProvider,
     NModal,
     NNotificationProvider,
+    NP,
     NResult,
     NSelect,
     NText,
     NThemeEditor,
+    NTree,
     NRadio,
     NH3,
-    NUpload
+    NUpload,
+    NUploadDragger
   ]
 });
 
