@@ -101,11 +101,11 @@ export default defineComponent({
         },
         onClick() {
           if (option.children == undefined) {
+            const mode = router.currentRoute.value.fullPath.split("/")[3];
             router.push({
-              path: `/chapter/${router.currentRoute.value.params.courseId}/teach/${option.key}`
+              path: `/chapter/${router.currentRoute.value.params.courseId}/${mode}/${option.key}`
             });
           }
-          console.log("点击了", option.children);
         }
       };
     };
@@ -152,7 +152,7 @@ export default defineComponent({
     margin: 22px 22px 20px 30px;
     border-radius: 10px;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    height: 100vh;
+    max-height: 90vh;
     .courseDetail {
       display: flex;
       flex-direction: column;

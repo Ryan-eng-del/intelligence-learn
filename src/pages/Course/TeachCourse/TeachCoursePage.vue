@@ -147,6 +147,7 @@ export default defineComponent({
     margin: 22px 22px 20px 30px;
     border-radius: 10px;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    max-height: 90vh;
     .courseDetail {
       display: flex;
       flex-direction: column;

@@ -119,12 +119,12 @@ export default defineComponent({
   background-color: rgb(245, 245, 245);
   min-width: 992px;
   margin: 0 auto 0 auto;
-  height: 800px;
+  height: 100vh;
   .left-sider {
     margin: 22px 22px 20px 30px;
     border-radius: 10px;
-    height: 800px;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    max-height: 90vh;
     .profile {
       display: flex;
       flex-direction: column;
