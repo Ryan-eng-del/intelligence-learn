@@ -1,5 +1,36 @@
 <template>
-  <div class="content">
+  <n-layout
+    class="chapter-container"
+    content-style="padding: 30px 30px 30px 30px;"
+  >
+    <!--标题-->
+    <n-h2 :align-text="false" prefix="bar" style="margin-right: 10px"
+      >编辑课件</n-h2
+    >
+    <!--绑定知识点-->
+    <div class="operation">
+      <n-tag
+        v-for="i in knowledge.knowledgeList.value"
+        :key="i.id"
+        type="success"
+        closable
+        @close="knowledge.handleDelete(i.id)"
+        >{{ i.text }}</n-tag
+      >
+      <n-button
+        style="height: 34px; width: 120px"
+        size="medium"
+        round
+        type="primary"
+        @click="knowledge.handleRelate"
+      >
+        <template #icon>
+          <n-icon><add /></n-icon>
+        </template>
+        绑定知识点
+      </n-button>
+    </div>
+    <n-divider />
     <div v-if="upload">
       <h1>你还没有上传过课件</h1>
       <n-upload multiple directory-dnd :action="address" :on-finish="complete">
@@ -22,13 +53,15 @@
       <h1>暂时不做的富文本编辑器</h1>
       <n-button @click="upload = true">返回</n-button>
     </div>
-  </div>
+  </n-layout>
 </template>
 
 <script>
 import router from "@/router";
 import { defineComponent, ref } from "vue";
+import Add from "@/components/iconComponents/Add.vue";
 import { ArchiveOutline as ArchiveIcon } from "@vicons/ionicons5";
+
 export default defineComponent({
   setup() {
     function complete() {
@@ -39,14 +72,37 @@ export default defineComponent({
     }
     const address = "http://unknowed";
     const upload = ref(true);
+
+    const knowledge = {
+      knowledgeList: ref([
+        { text: "离散数学", id: 2333 },
+        { text: "考点", id: 2363 },
+        { text: "送分题", id: 2343 }
+      ]),
+      handleRelate() {
+        console.log("打卡一个对话框");
+        knowledge.knowledgeList.value.push({ text: "没做完", id: 111 });
+      },
+      handleDelete(id) {
+        const ls = knowledge.knowledgeList.value;
+        for (let i = 0; i < ls.length; i++) {
+          if (ls[i].id == id) {
+            ls.splice(i, 1);
+            break;
+          }
+        }
+      }
+    };
     return {
       complete,
       address,
-      upload
+      upload,
+      knowledge
     };
   },
   components: {
-    ArchiveIcon
+    ArchiveIcon,
+    Add
   }
 });
 </script>
@@ -56,10 +112,5 @@ export default defineComponent({
   width: 70vw;
   height: 75vh;
   margin: 2vw;
-}
-.content {
-  //怎么居中呢
-  align-items: center;
-  justify-content: center;
 }
 </style>
