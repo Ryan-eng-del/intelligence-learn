@@ -1,66 +1,80 @@
 <template>
-  <n-message-provider>
-    <n-layout
-      class="chapter-container"
-      content-style="padding: 30px 30px 30px 30px;"
+  <n-layout
+    class="chapter-container"
+    content-style="padding: 30px 30px 30px 30px;"
+  >
+    <!--标题-->
+    <n-h2 :align-text="false" prefix="bar" style="margin-right: 10px"
+      >编辑章节</n-h2
     >
-      <!--标题-->
-      <n-h2 :align-text="false" prefix="bar" style="margin-right: 10px"
-        >编辑章节</n-h2
+    <n-divider />
+    <!--操作区-->
+    <div class="operation">
+      <!--搜索框-->
+      <n-input-group style="width: 260px">
+        <n-input style="width: 200px" />
+        <n-button type="primary">搜索</n-button>
+      </n-input-group>
+      <!--新建课程按钮-->
+      <n-button
+        style="height: 34px; width: 120px"
+        size="medium"
+        round
+        type="primary"
+        @click="dragEnable"
       >
-      <n-divider />
-      <!--操作区-->
-      <div class="operation">
-        <!--搜索框-->
-        <n-input-group style="width: 260px">
-          <n-input style="width: 200px" />
-          <n-button type="primary">搜索</n-button>
-        </n-input-group>
-        <!--新建课程按钮-->
-        <n-button
-          style="height: 34px; width: 120px"
-          size="medium"
-          round
-          type="primary"
-          @click="showCreateNodeFn"
-        >
-          <template #icon>
-            <n-icon>
-              <add />
-            </n-icon>
-          </template>
-          新建总节点
-        </n-button>
-      </div>
-      <!-- 树形选择器 -->
-      <n-tree
-        :data="data"
-        selectable
-        default-expand-all
-        block-line
-        draggable
-        :node-props="nodeProps"
-        :render-switcher-icon="renderSwitcherIcon"
-      ></n-tree>
-      <!-- 右键菜单 -->
-      <n-dropdown
-        trigger="manual"
-        placement="bottom-start"
-        :show="showDropdown"
-        :options="options"
-        :x="x"
-        :y="y"
-        @select="handleSelect"
-        @clickoutside="handleClickoutside"
-      />
-    </n-layout>
-  </n-message-provider>
+        <template #icon>
+          <n-icon>
+            <add />
+          </n-icon>
+        </template>
+        {{ dragDisable ? "完成调整顺序" : "开启调整" }}
+      </n-button>
+      <!--新建课程按钮-->
+      <n-button
+        style="height: 34px; width: 120px"
+        size="medium"
+        round
+        type="primary"
+        @click="showCreateNodeFn"
+      >
+        <template #icon>
+          <n-icon>
+            <add />
+          </n-icon>
+        </template>
+        新建总节点
+      </n-button>
+    </div>
+    <!-- 树形选择器 -->
+    <n-tree
+      :data="data"
+      selectable
+      default-expand-all
+      block-line
+      @drop="handleDrop"
+      :draggable="dragDisable"
+      :node-props="nodeProps"
+      :render-switcher-icon="renderSwitcherIcon"
+    ></n-tree>
+    <!-- 右键菜单 -->
+    <n-dropdown
+      trigger="manual"
+      placement="bottom-start"
+      :show="showDropdown"
+      :options="options"
+      :x="x"
+      :y="y"
+      @select="handleSelect"
+      @clickoutside="handleClickoutside"
+    />
+  </n-layout>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, h } from "vue";
 import Add from "@/components/iconComponents/Add.vue";
-import { TreeOption, NIcon, DropdownOption } from "naive-ui";
+import { TreeOption, NIcon, DropdownOption, TreeDropInfo } from "naive-ui";
 import { ChevronForward } from "@vicons/ionicons5";
 import { getRandomInt } from "element-plus/lib/utils";
 import { useRouter } from "vue-router";
@@ -80,7 +94,11 @@ export default defineComponent({
           { label: "Node I-II", key: 12, isLeaf: true }
         ]
       },
-      { label: "Node II", key: 2, isLeaf: true }
+      { label: "Node II", key: 2, isLeaf: true },
+      { label: "Node aa", key: 3, isLeaf: true },
+      { label: "Node cc", key: 4, isLeaf: true },
+      { label: "Node kk", key: 5, isLeaf: true },
+      { label: "Node gg", key: 6, isLeaf: true }
     ]);
 
     function showCreateNodeFn() {
@@ -98,6 +116,16 @@ export default defineComponent({
     const xRef = ref(0);
     const yRef = ref(0);
 
+    // 删除节点
+    function deleteNode(data = dataRef.value) {
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].key == DropdownOption.value.key) {
+          data.splice(i, 1);
+        } else if (data[i].children) {
+          deleteNode(data[i].children);
+        }
+      }
+    }
     // 点击了右键菜单选项
     const handleSelect = (key: string | number) => {
       switch (key) {
@@ -108,8 +136,7 @@ export default defineComponent({
           });
           break;
         case "delete":
-          // TODO:
-          console.log("delete");
+          deleteNode();
           break;
         case "newNode":
           DropdownOption.value.children.push({
@@ -173,20 +200,77 @@ export default defineComponent({
         }
       };
     };
-
+    // 拖拽功能
+    const dragDisable = ref(false); //拖拽模式开关
+    function dragEnable() {
+      if (dragDisable.value) {
+        dragDisable.value = false;
+      } else {
+        dragDisable.value = true;
+      }
+    }
+    function findSiblingsAndIndex(
+      node: TreeOption,
+      nodes?: TreeOption[]
+    ): [TreeOption[], number] | [null, null] {
+      if (!nodes) return [null, null];
+      for (let i = 0; i < nodes.length; ++i) {
+        const siblingNode = nodes[i];
+        if (siblingNode.key === node.key) return [nodes, i];
+        const [siblings, index] = findSiblingsAndIndex(
+          node,
+          siblingNode.children
+        );
+        if (siblings && index !== null) return [siblings, index];
+      }
+      return [null, null];
+    }
+    function handleDrop({ node, dragNode, dropPosition }: TreeDropInfo) {
+      const [dragNodeSiblings, dragNodeIndex] = findSiblingsAndIndex(
+        dragNode,
+        dataRef.value
+      );
+      if (dragNodeSiblings === null || dragNodeIndex === null) return;
+      dragNodeSiblings.splice(dragNodeIndex, 1);
+      if (dropPosition === "inside") {
+        if (node.children) {
+          node.children.unshift(dragNode);
+        } else {
+          node.children = [dragNode];
+        }
+      } else if (dropPosition === "before") {
+        const [nodeSiblings, nodeIndex] = findSiblingsAndIndex(
+          node,
+          dataRef.value
+        );
+        if (nodeSiblings === null || nodeIndex === null) return;
+        nodeSiblings.splice(nodeIndex, 0, dragNode);
+      } else if (dropPosition === "after") {
+        const [nodeSiblings, nodeIndex] = findSiblingsAndIndex(
+          node,
+          dataRef.value
+        );
+        if (nodeSiblings === null || nodeIndex === null) return;
+        nodeSiblings.splice(nodeIndex + 1, 0, dragNode);
+      }
+      dataRef.value = Array.from(dataRef.value);
+    }
     //树的左侧图标
     const renderSwitcherIcon = () =>
       h(NIcon, null, { default: () => h(ChevronForward) });
 
     return {
-      data: dataRef,
-      showCreateNodeFn,
-      showDropdown: showDropdownRef,
-      x: xRef,
-      y: yRef,
-      options: optionsRef,
-      handleSelect,
-      handleClickoutside,
+      data: dataRef, //数据
+      showCreateNodeFn, //创建根节点
+      dragDisable, //启用拖拽
+      handleDrop, //启用拖拽
+      dragEnable, //启用拖拽
+      showDropdown: showDropdownRef, //下拉菜单
+      x: xRef, //下拉菜单
+      y: yRef, //下拉菜单
+      options: optionsRef, //下拉菜单
+      handleSelect, //下拉菜单
+      handleClickoutside, //下拉菜单
       nodeProps,
       renderSwitcherIcon
     };
