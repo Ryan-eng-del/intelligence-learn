@@ -81,8 +81,8 @@ export default defineComponent({
       for (let i = 0; i < data.length; i++) {
         if (data[i].key == DropdownOption.value.key) {
           data.splice(i, 1);
-        } else if (data[i].children) {
-          deleteNode(data[i].children);
+        } else if ((data[i] as any).children) {
+          deleteNode((data[i] as any).children);
         }
       }
     }
