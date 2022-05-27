@@ -9,14 +9,17 @@
     >
     <!--绑定知识点-->
     <div class="operation">
-      <n-tag
-        v-for="i in knowledge.knowledgeList.value"
-        :key="i.id"
-        type="success"
-        closable
-        @close="knowledge.handleDelete(i.id)"
-        >{{ i.text }}</n-tag
-      >
+      <!--这层控制tag显示范围 -->
+      <div>
+        <n-tag
+          v-for="i in knowledge.knowledgeList.value"
+          :key="i.id"
+          type="success"
+          closable
+          @close="knowledge.handleDelete(i.id)"
+          >{{ i.text }}</n-tag
+        >
+      </div>
       <n-button
         style="height: 34px; width: 120px"
         size="medium"
@@ -31,6 +34,7 @@
       </n-button>
     </div>
     <n-divider />
+    <!-- 上传界面 -->
     <div v-if="upload">
       <h1>你还没有上传过课件</h1>
       <n-upload multiple directory-dnd :action="address" :on-finish="complete">
@@ -49,18 +53,22 @@
       <n-button @click="complete">点击此处预览</n-button>
       <n-button @click="upload = false">打开在线编辑器</n-button>
     </div>
+    <!-- 富文本编辑界面 -->
     <div v-else>
       <h1>暂时不做的富文本编辑器</h1>
       <n-button @click="upload = true">返回</n-button>
     </div>
+    <!-- 弹出的关联知识点 -->
   </n-layout>
 </template>
 
 <script>
 import router from "@/router";
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, h } from "vue";
 import Add from "@/components/iconComponents/Add.vue";
 import { ArchiveOutline as ArchiveIcon } from "@vicons/ionicons5";
+import { useDialog } from "naive-ui";
+import AddKnowledge from "@/businessComponents/AddKnowledge.vue";
 
 export default defineComponent({
   setup() {
@@ -72,16 +80,61 @@ export default defineComponent({
     }
     const address = "http://unknowed";
     const upload = ref(true);
-
+    const dialog = useDialog();
     const knowledge = {
+      // 已经关联的知识点
       knowledgeList: ref([
         { text: "离散数学", id: 2333 },
         { text: "考点", id: 2363 },
         { text: "送分题", id: 2343 }
       ]),
+      //全部知识点列表，TODO: 放到store
+      dataRef: ref([
+        {
+          label: "知识点1",
+          key: 1,
+          children: [
+            {
+              label: "知识点1-2",
+              key: 12
+            }
+          ]
+        },
+        {
+          label: "知识点3",
+          key: 3
+        },
+        {
+          label: "知识点2",
+          key: 2
+        }
+      ]),
+      //勾选了的知识点
+      preAddList: [],
+      CheckedNode() {
+        console.log("2333");
+      },
+      // 打开关联知识点窗口
       handleRelate() {
-        console.log("打卡一个对话框");
-        knowledge.knowledgeList.value.push({ text: "没做完", id: 111 });
+        dialog.success({
+          title: "添加绑定知识点",
+          content: () =>
+            h(AddKnowledge, {
+              exist: knowledge.knowledgeList.value,
+              list: knowledge.dataRef.value,
+              // 传回来的值
+              onSubmit(preAdd) {
+                knowledge.preAddList = JSON.parse(JSON.stringify(preAdd));
+              }
+            }),
+          positiveText: "添加",
+          onPositiveClick: () => {
+            //把label 映射为 text
+            knowledge.preAddList.forEach((i) => {
+              knowledge.knowledgeList.value.push({ text: i.label, key: i.key });
+            });
+          }
+        });
       },
       handleDelete(id) {
         const ls = knowledge.knowledgeList.value;
