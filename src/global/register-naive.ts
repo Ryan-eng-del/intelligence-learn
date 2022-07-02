@@ -35,7 +35,11 @@ import {
   NUpload,
   NDropdown,
   NUploadDragger,
-  NP
+  NP,
+  NList,
+  NThing,
+  NListItem,
+  NPopconfirm
 } from "naive-ui";
 
 const naive = create({
@@ -60,17 +64,21 @@ const naive = create({
     NInputGroup,
     NLayout,
     NLayoutSider,
+    NList,
+    NListItem,
     NLoadingBarProvider,
     NMenu,
     NMessageProvider,
     NModal,
     NNotificationProvider,
     NP,
+    NPopconfirm,
     NResult,
     NSelect,
     NTag,
     NText,
     NThemeEditor,
+    NThing,
     NTree,
     NRadio,
     NH3,

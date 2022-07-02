@@ -75,7 +75,9 @@ const routes: Array<RouteRecordRaw> = [
         path: "/teachinfo/:courseId/resource",
         name: "resource",
         component: () =>
-          import("@/pages/Course/TeachCourse/courseMenu/resource.vue")
+          import(
+            "@/pages/Course/TeachCourse/courseMenu/CourseResource/resource.vue"
+          )
       },
       {
         path: "/teachinfo/:courseId/discuss",
