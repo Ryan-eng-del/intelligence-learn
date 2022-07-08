@@ -39,17 +39,29 @@ import {
   NList,
   NThing,
   NListItem,
-  NPopconfirm
+  NPopconfirm,
+  NDatePicker,
+  NBreadcrumb,
+  NBreadcrumbItem,
+  NCollapse,
+  NCollapseItem,
+  NBadge
 } from "naive-ui";
 
 const naive = create({
   components: [
     NAutoComplete,
     NAvatar,
+    NBadge,
+    NBreadcrumb,
+    NBreadcrumbItem,
     NButton,
     NCard,
     NCheckbox,
     NConfigProvider,
+    NCollapse,
+    NCollapseItem,
+    NDatePicker,
     NDialogProvider,
     NDivider,
     NDropdown,

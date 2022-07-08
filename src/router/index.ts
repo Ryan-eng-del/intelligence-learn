@@ -100,6 +100,11 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
+    path: "/exam/:ResId",
+    name: "examing",
+    component: () => import("@/pages/Course/LearnCourse/Exam/Exam.vue")
+  },
+  {
     path: "/learninfo",
     name: "learninfo",
     component: () => import("@/pages/Course/LearnCourse/LearnCoursePage.vue")
